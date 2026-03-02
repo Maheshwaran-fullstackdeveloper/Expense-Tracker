@@ -1,0 +1,17 @@
+{
+  "name": "expense-tracker-fullstack",
+  "version": "1.0.0",
+  "description": "Premium Expense Tracker",
+  "main": "backend/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js",
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install",
+    "backend": "cd backend && npm run dev",
+    "frontend": "cd frontend && npm run dev",
+    "dev": "npm run backend & npm run frontend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

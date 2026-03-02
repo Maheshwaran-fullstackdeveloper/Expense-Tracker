@@ -23,9 +23,27 @@ connectDB();
 const app = express();
 
 // Middleware
+const allowedOrigins = [
+  process.env.FRONTEND_URL, // Vercel deployment URL
+  "http://localhost:5173", // Local dev
+  /\.vercel\.app$/, // Allow all Vercel preview/branch deployments
+];
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: function (origin, callback) {
+      if (
+        !origin ||
+        allowedOrigins.some((pattern) => {
+          if (pattern instanceof RegExp) return pattern.test(origin);
+          return pattern === origin;
+        })
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );
@@ -56,8 +74,10 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001; // Match local port 5001 for consistency
 
 app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+  console.log(
+    `Server running in ${process.env.NODE_ENV || "development"} mode on port ${PORT}`,
+  );
 });
