@@ -1,0 +1,178 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
+
+  --color-accent-pink: #f43f5e;
+  --color-accent-purple: #8b5cf6;
+  --color-accent-indigo: #6366f1;
+  --color-accent-emerald: #10b981;
+
+  --animate-gradient-x: gradient-x 15s ease infinite;
+  --animate-float: float 3s ease-in-out infinite;
+
+  @keyframes gradient-x {
+    0%,
+    100% {
+      background-size: 200% 200%;
+      background-position: left center;
+    }
+    50% {
+      background-size: 200% 200%;
+      background-position: right center;
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
+
+:root {
+  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light;
+  color: #0c4a6e;
+  background-color: #f8fbff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --toast-bg: #ffffff;
+  --toast-text: #0c4a6e;
+  --toast-border: #e0f2fe;
+}
+
+.dark:root,
+.dark {
+  color-scheme: dark;
+  background-color: #020617;
+  color: #f0f9ff;
+  --toast-bg: #0f172a;
+  --toast-text: #f0f9ff;
+  --toast-border: #1e293b;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: inherit;
+  color: inherit;
+  transition:
+    background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card {
+  @apply bg-white dark:bg-slate-900 border border-primary-100 dark:border-primary-900/30 rounded-2xl shadow-xl shadow-primary-500/5 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)];
+}
+
+.glass-input {
+  @apply bg-white dark:bg-slate-800 border border-primary-200 dark:border-primary-800 rounded-lg py-2.5 px-5 text-primary-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all w-full;
+}
+
+.input-group {
+  @apply relative flex items-center w-full;
+}
+
+.input-icon {
+  @apply absolute left-5 text-primary-300 pointer-events-none transition-colors z-10;
+}
+
+.input-group:focus-within .input-icon {
+  @apply text-primary-500;
+}
+
+.input-group .glass-input {
+  @apply pl-16;
+}
+
+::placeholder {
+  @apply text-primary-300 font-medium;
+  opacity: 1; /* Firefox */
+}
+
+.btn-primary {
+  @apply bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2.5 px-6 rounded-xl shadow-lg shadow-primary-500/25 transition-all active:scale-95 cursor-pointer;
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-400;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f9ff;
+  @apply dark:bg-slate-900;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7dd3fc;
+  border-radius: 4px;
+  @apply dark:bg-primary-900;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #38bdf8;
+  @apply dark:bg-primary-800;
+}
+
+/* Ensure headings and strong text are clean */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong {
+  @apply text-primary-900 dark:text-white;
+}
+
+button,
+a,
+select,
+input[type="button"],
+input[type="submit"],
+label[for] {
+  cursor: pointer;
+}
+
+/* Table header styling */
+table thead {
+  @apply bg-primary-50 dark:bg-slate-800 transition-colors duration-500;
+}
+
+table th {
+  @apply py-5 px-6 font-bold text-primary-900 dark:text-primary-200 border-b border-slate-200 dark:border-slate-800;
+}
+
+input,
+select,
+textarea {
+  @apply bg-white dark:bg-slate-800 text-primary-900 dark:text-white;
+}
