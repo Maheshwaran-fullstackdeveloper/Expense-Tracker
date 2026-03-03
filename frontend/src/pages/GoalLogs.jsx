@@ -211,7 +211,7 @@ const GoalLogs = () => {
                           {format(parseISO(log.date), "MMM dd, yyyy")}
                         </p>
                         <p className="text-[10px] text-sky-500 dark:text-sky-400 font-bold">
-                          {format(parseISO(log.date), "hh:mm a")}
+                          {format(parseISO(log.date), "hh:mm a 'IST'")}
                         </p>
                       </td>
                       <td className="px-8 py-6 text-right">

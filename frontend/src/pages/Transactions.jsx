@@ -92,12 +92,27 @@ const Transactions = () => {
 
   const startEdit = (t) => {
     setEditingId(t._id);
-    setEditData({ ...t, date: format(new Date(t.date), "yyyy-MM-dd'T'HH:mm") });
+    setEditData({ ...t, date: format(new Date(t.date), "yyyy-MM-dd") });
   };
 
   const handleUpdate = async () => {
     try {
-      await updateTransaction(editingId, editData);
+      // Preserve the original time if only the date was changed via the UI
+      const originalDate = new Date(
+        transactions.find((t) => t._id === editingId).date,
+      );
+      const [year, month, day] = editData.date.split("-");
+
+      const finalDate = new Date(
+        year,
+        month - 1,
+        day,
+        originalDate.getHours(),
+        originalDate.getMinutes(),
+        originalDate.getSeconds(),
+      );
+
+      await updateTransaction(editingId, { ...editData, date: finalDate });
       setEditingId(null);
       toast.success("Transaction updated!");
     } catch (err) {
@@ -308,8 +323,8 @@ const Transactions = () => {
                       <td className="px-6 py-4 text-sm text-primary-600 font-bold whitespace-nowrap">
                         {editingId === t._id ? (
                           <input
-                            type="datetime-local"
-                            className="bg-white dark:bg-slate-800 border border-primary-200 dark:border-primary-800 rounded p-1 text-primary-900 dark:text-white text-[10px] cursor-pointer font-bold outline-none focus:ring-1 focus:ring-primary-500"
+                            type="date"
+                            className="bg-white dark:bg-slate-800 border border-primary-200 dark:border-primary-800 rounded p-1 text-primary-900 dark:text-white text-xs cursor-pointer font-bold outline-none focus:ring-1 focus:ring-primary-500"
                             value={editData.date}
                             onChange={(e) =>
                               setEditData({ ...editData, date: e.target.value })
@@ -321,7 +336,7 @@ const Transactions = () => {
                               {format(new Date(t.date), "MMM dd, yyyy")}
                             </span>
                             <span className="text-sky-500 dark:text-sky-400 text-[10px] font-bold">
-                              {format(new Date(t.date), "hh:mm a")}
+                              {format(new Date(t.date), "hh:mm a 'IST'")}
                             </span>
                           </div>
                         )}

@@ -83,11 +83,11 @@ const LoanLogs = () => {
             <ArrowLeft className="w-6 h-6 text-primary-900 dark:text-white" />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-primary-900 dark:text-white tracking-tight">
-              EMI <span className="text-sky-400 font-bold">History</span>
+            <h1 className="text-3xl font-bold text-primary-900 dark:text-white tracking-tight italic">
+              Loan <span className="text-sky-400 font-bold">history</span>
             </h1>
-            <p className="text-primary-400 dark:text-primary-500 font-bold text-sm">
-              Keep track of your debt-free journey with every payment.
+            <p className="text-primary-400 dark:text-primary-500 font-bold text-sm italic">
+              Detailed tracking of your EMI repayments and debt clearance.
             </p>
           </div>
         </div>
@@ -99,11 +99,11 @@ const LoanLogs = () => {
           <div className="glass-card p-6 border-primary-100 dark:border-primary-900/30 bg-white dark:bg-slate-900 shadow-xl shadow-primary-500/5 rounded-3xl">
             <h3 className="text-lg font-bold text-primary-900 dark:text-white mb-4 flex items-center gap-2 italic">
               <Filter className="w-5 h-5 text-sky-400" />
-              Filter History
+              Filter Records
             </h3>
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-xs text-primary-400 font-bold uppercase tracking-wider">
+                <label className="text-xs text-primary-400 font-bold uppercase tracking-wider italic">
                   Search
                 </label>
                 <div className="relative group">
@@ -112,15 +112,15 @@ const LoanLogs = () => {
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search Loan..."
+                    placeholder="Search records..."
                     className="w-full h-12 pl-11 pr-4 bg-primary-50/50 dark:bg-slate-800/50 border-2 border-transparent focus:border-sky-400 rounded-2xl outline-none transition-all font-semibold text-primary-900 dark:text-white placeholder:text-primary-200 dark:placeholder:text-primary-800"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs text-primary-400 font-bold uppercase tracking-wider">
-                  Month
+                <label className="text-xs text-primary-400 font-bold uppercase tracking-wider italic">
+                  Specific Month
                 </label>
                 <input
                   type="month"
@@ -131,7 +131,7 @@ const LoanLogs = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs text-primary-400 font-bold uppercase tracking-wider">
+                <label className="text-xs text-primary-400 font-bold uppercase tracking-wider italic">
                   Date Range
                 </label>
                 <div className="space-y-2">
@@ -161,7 +161,7 @@ const LoanLogs = () => {
                   setDateRange({ start: "", end: "" });
                   setCurrentPage(1);
                 }}
-                className="w-full py-4 text-xs font-bold text-primary-400 dark:text-primary-600 hover:text-sky-400 dark:hover:text-sky-300 transition-all underline cursor-pointer"
+                className="w-full py-4 text-xs font-bold text-primary-400 dark:text-primary-600 hover:text-sky-400 transition-all underline cursor-pointer"
               >
                 Reset All Filters
               </button>
@@ -176,11 +176,11 @@ const LoanLogs = () => {
               <table className="w-full text-left border-collapse">
                 <thead className="border-b border-primary-50 dark:border-primary-900/30">
                   <tr>
-                    <th className="px-8 py-5 text-xs font-bold text-primary-400 uppercase tracking-widest">
-                      EMI Details
+                    <th className="px-8 py-5 text-xs font-bold text-primary-400 uppercase tracking-widest text-sky-400">
+                      Payment Detail
                     </th>
-                    <th className="px-8 py-5 text-xs font-bold text-primary-400 uppercase tracking-widest">
-                      Payment Date
+                    <th className="px-8 py-5 text-xs font-bold text-primary-400 uppercase tracking-widest text-sky-400">
+                      Date
                     </th>
                     <th className="px-8 py-5 text-xs font-bold text-primary-400 uppercase tracking-widest text-right text-sky-400">
                       Total Paid
@@ -191,7 +191,7 @@ const LoanLogs = () => {
                   {paginatedLogs.map((log) => (
                     <tr
                       key={log._id}
-                      className="border-b border-primary-50 dark:border-primary-900/10 hover:bg-primary-50/20 dark:hover:bg-slate-800/50 transition-all group"
+                      className="border-b border-primary-50 dark:border-primary-900/10 hover:bg-sky-50/10 dark:hover:bg-slate-800/50 transition-all group"
                     >
                       <td className="px-8 py-6">
                         <div className="flex items-center gap-4">
@@ -214,7 +214,7 @@ const LoanLogs = () => {
                           {format(parseISO(log.date), "MMM dd, yyyy")}
                         </p>
                         <p className="text-[10px] text-sky-500 dark:text-sky-400 font-bold">
-                          {format(parseISO(log.date), "hh:mm a")}
+                          {format(parseISO(log.date), "hh:mm a 'IST'")}
                         </p>
                       </td>
                       <td className="px-8 py-6 text-right">
@@ -230,13 +230,13 @@ const LoanLogs = () => {
               {filteredLogs.length === 0 && (
                 <div className="py-32 text-center">
                   <div className="w-20 h-20 bg-primary-50 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <History className="w-10 h-10 text-sky-100 dark:text-sky-900" />
+                    <History className="w-10 h-10 text-primary-100 dark:text-primary-900" />
                   </div>
-                  <h3 className="text-xl font-bold text-primary-900 dark:text-white mb-2">
-                    No repayment records found
+                  <h3 className="text-xl font-bold text-primary-900 dark:text-white mb-2 italic">
+                    No records found
                   </h3>
                   <p className="text-primary-400 dark:text-primary-500 text-sm font-medium">
-                    Payment details will appear once you make a contribution
+                    Try different search terms or dates
                   </p>
                 </div>
               )}
@@ -244,7 +244,7 @@ const LoanLogs = () => {
             {/* Pagination UI */}
             {totalPages > 1 && (
               <div className="px-8 py-5 bg-primary-50/10 dark:bg-slate-800/20 border-t border-primary-50 dark:border-primary-900/10 flex items-center justify-between">
-                <p className="text-[10px] font-bold text-sky-500 dark:text-sky-400">
+                <p className="text-[10px] font-bold text-sky-500 dark:text-sky-400 italic">
                   Showing{" "}
                   <span className="text-primary-900 dark:text-white">
                     {startIndex + 1}
@@ -257,7 +257,7 @@ const LoanLogs = () => {
                   <span className="text-primary-900 dark:text-white">
                     {filteredLogs.length}
                   </span>{" "}
-                  results
+                  entries
                 </p>
                 <div className="flex items-center gap-2">
                   <button
@@ -266,37 +266,37 @@ const LoanLogs = () => {
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
                     disabled={currentPage === 1}
-                    className="p-2 rounded-xl border border-primary-50 dark:border-primary-900/10 hover:bg-white dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                    className="p-2 rounded-xl border border-primary-50 dark:border-primary-900/10 hover:bg-white dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
                   >
-                    <ChevronLeft className="w-4 h-4 text-sky-500 dark:text-sky-400" />
+                    <ChevronLeft className="w-4 h-4 text-primary-600 dark:text-primary-400" />
                   </button>
                   <div className="flex items-center gap-1">
                     {[...Array(totalPages)].map((_, i) => {
-                      const actualPage = i + 1;
+                      const pageNum = i + 1;
                       if (
-                        actualPage === 1 ||
-                        actualPage === totalPages ||
-                        (actualPage >= currentPage - 1 &&
-                          actualPage <= currentPage + 1)
+                        pageNum === 1 ||
+                        pageNum === totalPages ||
+                        (pageNum >= currentPage - 1 &&
+                          pageNum <= currentPage + 1)
                       ) {
                         return (
                           <button
-                            key={actualPage}
+                            key={pageNum}
                             onClick={() => {
-                              setCurrentPage(actualPage);
+                              setCurrentPage(pageNum);
                               window.scrollTo({ top: 0, behavior: "smooth" });
                             }}
-                            className={`w-9 h-9 rounded-xl text-xs font-bold transition-all ${currentPage === actualPage ? "bg-sky-500 text-white shadow-lg shadow-sky-500/20" : "hover:bg-white dark:hover:bg-slate-800 text-primary-400"}`}
+                            className={`w-9 h-9 rounded-xl text-xs font-bold transition-all ${currentPage === pageNum ? "bg-sky-400 text-white shadow-lg shadow-sky-400/20" : "hover:bg-white dark:hover:bg-slate-800 text-primary-400"}`}
                           >
-                            {actualPage}
+                            {pageNum}
                           </button>
                         );
                       } else if (
-                        actualPage === currentPage - 2 ||
-                        actualPage === currentPage + 2
+                        pageNum === currentPage - 2 ||
+                        pageNum === currentPage + 2
                       ) {
                         return (
-                          <span key={actualPage} className="text-primary-200">
+                          <span key={pageNum} className="text-primary-200">
                             ...
                           </span>
                         );
@@ -310,9 +310,9 @@ const LoanLogs = () => {
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
                     disabled={currentPage === totalPages}
-                    className="p-2 rounded-xl border border-primary-50 dark:border-primary-900/10 hover:bg-white dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                    className="p-2 rounded-xl border border-primary-50 dark:border-primary-900/10 hover:bg-white dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
                   >
-                    <ChevronRight className="w-4 h-4 text-sky-500 dark:text-sky-400" />
+                    <ChevronRight className="w-4 h-4 text-primary-600 dark:text-primary-400" />
                   </button>
                 </div>
               </div>

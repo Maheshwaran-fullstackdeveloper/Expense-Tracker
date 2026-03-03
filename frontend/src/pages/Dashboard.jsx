@@ -12,9 +12,10 @@ import {
   ArrowDownRight,
   Calendar,
   Wallet,
+  Clock,
 } from "lucide-react";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useTheme } from "../context/ThemeContext";
@@ -25,6 +26,12 @@ const Dashboard = () => {
   const { isDarkMode } = useTheme();
   const [isAdding, setIsAdding] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   // Quick Form State
   const [formData, setFormData] = useState({
@@ -48,7 +55,19 @@ const Dashboard = () => {
     e.preventDefault();
     setIsAdding(true);
     try {
-      await addTransaction(formData);
+      // Append current time to the selected date for real-time logging
+      const now = new Date();
+      const [year, month, day] = formData.date.split("-");
+      const transactionDate = new Date(
+        year,
+        month - 1,
+        day,
+        now.getHours(),
+        now.getMinutes(),
+        now.getSeconds(),
+      );
+
+      await addTransaction({ ...formData, date: transactionDate });
       setFormData({
         type: "expense",
         amount: "",
@@ -57,6 +76,11 @@ const Dashboard = () => {
         date: format(new Date(), "yyyy-MM-dd"),
       });
       setShowForm(false);
+      // Refresh date for next potential entry
+      setFormData((prev) => ({
+        ...prev,
+        date: format(new Date(), "yyyy-MM-dd"),
+      }));
       toast.success("Transaction added successfully!");
     } catch (err) {
       console.error(err);
@@ -78,7 +102,15 @@ const Dashboard = () => {
           </p>
         </div>
         <button
-          onClick={() => setShowForm(!showForm)}
+          onClick={() => {
+            if (!showForm) {
+              setFormData((prev) => ({
+                ...prev,
+                date: format(new Date(), "yyyy-MM-dd"),
+              }));
+            }
+            setShowForm(!showForm);
+          }}
           className={`flex items-center gap-2 w-fit cursor-pointer shadow-lg active:scale-95 transition-all px-6 py-3 rounded-2xl font-bold text-white capitalize ${
             showForm
               ? "bg-red-500 hover:bg-red-600 shadow-red-400/20"
@@ -161,7 +193,7 @@ const Dashboard = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, date: e.target.value })
                 }
-                className="w-full glass-input h-10 cursor-pointer rounded-xl border-primary-100 dark:border-primary-800 px-4 outline-none focus:border-primary-500 transition-all font-semibold text-primary-900 dark:text-white bg-white dark:bg-slate-800"
+                className="w-full glass-input h-10 cursor-pointer rounded-xl border-primary-100 dark:border-primary-800 px-4 outline-none focus:border-primary-500 transition-all font-semibold text-primary-900 dark:text-white bg-white dark:bg-slate-800 text-xs"
               />
             </div>
             <div className="space-y-2 lg:col-span-1">
@@ -201,9 +233,9 @@ const Dashboard = () => {
             >
               ₹{stats.balance.toLocaleString()}
             </h3>
-            <div className="mt-4 flex items-center gap-2 text-sky-500 dark:text-sky-400 text-xs font-bold capitalize">
-              <CreditCard className="w-4 h-4" />
-              <span>Real-time update</span>
+            <div className="mt-4 flex items-center gap-2 text-sky-500 dark:text-sky-400 text-[10px] font-bold capitalize bg-sky-50 dark:bg-sky-950/30 px-3 py-1.5 rounded-full w-fit">
+              <Clock className="w-3 h-3 animate-pulse" />
+              <span>{format(currentTime, "hh:mm:ss a 'IST'")}</span>
             </div>
           </div>
           <div className="p-3 bg-primary-50 dark:bg-primary-950/50 rounded-2xl">
@@ -358,7 +390,7 @@ const Dashboard = () => {
                       {t.category}
                     </h4>
                     <p className="text-[10px] text-sky-500 dark:text-sky-400 font-bold capitalize">
-                      {format(new Date(t.date), "MMM dd, yyyy")}
+                      {format(new Date(t.date), "MMM dd, yyyy • hh:mm a 'IST'")}
                     </p>
                   </div>
                 </div>
